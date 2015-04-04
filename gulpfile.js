@@ -25,7 +25,7 @@ gulp.task("build:js", function() {
         .bundle()
             .on("error", function(err) {
                 console.log(err.message);
-                return this;
+                this.emit("end");
             })
             .pipe(source("bundle.js"))
             .pipe(gulp.dest("dist/js"));
