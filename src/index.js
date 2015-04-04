@@ -37,9 +37,8 @@ let boy = ecs.addEntity("player", {
 });
 
 function createAnimationDef(baseName, numFrames, timePerFrame) {
-    // TODO remove assumption that frames are 1 based...
     const frames = [];
-    for (var i = 1; i <= numFrames; ++i) {
+    for (var i = 0; i < numFrames; ++i) {
         frames.push(baseName + i);
     }
 
