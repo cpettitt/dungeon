@@ -27,4 +27,14 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
+function resizeCanvas() {
+    const width = Math.min(window.innerWidth, 800);
+    const height = Math.min(window.innerHeight, 600);
+
+    renderer.resize(width, height);
+}
+window.addEventListener("resize", resizeCanvas);
+window.addEventListener("deviceOrientation", resizeCanvas);
+resizeCanvas();
+
 console.log("Bundle loaded!");
