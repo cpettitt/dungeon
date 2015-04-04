@@ -14,6 +14,17 @@ vector.magnitudeSquared = v => v.x * v.x + v.y * v.y;
 
 vector.magnitude = v => Math.sqrt(vector.magnitudeSquared(v));
 
+/**
+ * Return the angle of the vector in radians.
+ */
+vector.angle = v => {
+    let result = Math.atan2(v.y, v.x);
+    if (result < 0) {
+        result += 2 * Math.PI;
+    }
+    return result;
+};
+
 vector.normalize = v => {
     const magnitude = vector.magnitude(v);
     return vector.divide(v, magnitude);
