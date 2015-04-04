@@ -14,6 +14,7 @@
   "laxbreak": true,
 
   "node": true,
+  "esnext": true,
   "browser": true,
 
   "globals": {

@@ -3,6 +3,7 @@
 var gulp = require("gulp");
 var webserver = require("gulp-webserver");
 var browserify = require("browserify");
+var babelify = require("babelify");
 var source = require("vinyl-source-stream");
 var del = require("del");
 
@@ -14,6 +15,7 @@ gulp.task("build:assets", function() {
 gulp.task("build:js", function() {
     return browserify({ debug: true })
         .add("./src/index.js")
+        .transform(babelify)
         .bundle()
             .on("error", function(err) {
                 console.log(err.message);
