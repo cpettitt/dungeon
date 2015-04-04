@@ -40,7 +40,10 @@ gulp.task("watch", function() {
 
 gulp.task("serve", ["build", "watch"], function() {
     gulp.src("dist/")
-        .pipe(webserver({ livereload: true }));
+        .pipe(webserver({
+            host: "0.0.0.0",
+            livereload: true
+        }));
 });
 
 gulp.task("clean", function(cb) {
