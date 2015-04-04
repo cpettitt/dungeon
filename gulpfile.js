@@ -6,6 +6,8 @@ var browserify = require("browserify");
 var babelify = require("babelify");
 var source = require("vinyl-source-stream");
 var del = require("del");
+var jshint = require("gulp-jshint");
+var jshintStylish = require("jshint-stylish");
 
 gulp.task("build:assets", function() {
     gulp.src("assets/**/*")
@@ -13,6 +15,10 @@ gulp.task("build:assets", function() {
 });
 
 gulp.task("build:js", function() {
+    gulp.src("src/**/*.js")
+        .pipe(jshint())
+        .pipe(jshint.reporter(jshintStylish));
+
     return browserify({ debug: true })
         .add("./src/index.js")
         .transform(babelify)
