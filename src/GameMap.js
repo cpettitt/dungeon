@@ -1,35 +1,47 @@
 class GameMap {
-    constructor(width, height, tileWidth, tileHeight) {
+    constructor(name, width, height, tileWidth, tileHeight) {
+        this.name = name;
         this.width = width;
         this.height = height;
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
 
-        this.tiles = [];
+        this._tiles = [];
         for (let x = 0; x < width; ++x) {
-            this.tiles[x] = [];
+            this._tiles[x] = [];
             for (let y = 0; y < height; ++y) {
-                this.tiles[x][y] = { textures: [] };
+                this._tiles[x][y] = [];
             }
         }
 
-        this.textureFrames = {};
+        this._tileTypes = {};
 
         this.playerSpawn = null;
-        this._winBoxes = [];
     }
 
-    addTextureFrame(id, image, frame) {
-        this.textureFrames[id] = { image, frame };
+    addTileType(id, image, frame) {
+        this._tileTypes[id] = {
+            id,
+            image,
+            frame
+        };
     }
 
-    addTileTexture(x, y, textureId) {
-        this.tiles[x][y].textures.push(textureId);
+    addTile(x, y, tileId) {
+        this._tiles[x][y].push(this._tileTypes[tileId]);
+    }
+
+    getTileTypes() {
+        return this._tileTypes;
+    }
+
+    getTiles(x, y) {
+        return this._tiles[x][y];
     }
 }
 
-GameMap.fromTiled = json => {
-    const map = new GameMap(+json.width, +json.height, +json.tilewidth, +json.tileheight);
+GameMap.fromTiled = (name, json) => {
+    const map = new GameMap(name, json.width, json.height, json.tilewidth, json.tileheight);
     processTilesets(json, map);
     processLayers(json, map);
     return map;
@@ -50,12 +62,14 @@ function processTilesets(json, map) {
         // Assumes no margin or spacing.
         for (let y = 0; y < Math.floor(height / tileHeight); ++y) {
             for (let x = 0; x < Math.floor(width / tileWidth); ++x, ++id) {
-                map.addTextureFrame("map-" + id, image, {
+                const frame = {
                     x: x * tileWidth,
                     y: y * tileHeight,
                     width: tileWidth,
                     height: tileHeight
-                });
+                };
+
+                map.addTileType(id, image, frame);
             }
         }
     }
@@ -72,7 +86,7 @@ function processLayers(json, map) {
                 for (let x = 0; x < width; ++x, ++i) {
                     const id = data[i];
                     if (id) {
-                        map.addTileTexture(x, y, "map-" + id);
+                        map.addTile(x, y, id);
                     }
                 }
             }

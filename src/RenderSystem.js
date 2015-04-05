@@ -90,18 +90,18 @@ class RenderSystem {
 
     _initializeMapLayer(gameMap) {
         // First cache all of the textures
-        each(gameMap.textureFrames, (entry, id) => {
+        each(gameMap.getTileTypes(), (entry) => {
             const baseTexture = PIXI.TextureCache[entry.image].baseTexture;
             const texture = new PIXI.Texture(baseTexture, entry.frame);
-            PIXI.TextureCache[id] = texture;
+            PIXI.TextureCache[gameMap.name + "-" + entry.id] = texture;
         });
 
         // Now load up the map layer with sprites
         for (let i = 0; i < gameMap.width; ++i) {
             for (let j = 0; j < gameMap.height; ++j) {
-                const textures = gameMap.tiles[i][j].textures;
-                each(textures, texture => {
-                    const sprite = PIXI.Sprite.fromFrame(texture);
+                const tiles = gameMap.getTiles(i, j);
+                each(tiles, tile => {
+                    const sprite = PIXI.Sprite.fromFrame(gameMap.name + "-" + tile.id);
                     sprite.anchor = { x: 0.5, y: 0.5 };
                     sprite.position = { x: i * gameMap.tileWidth, y: j * gameMap.tileHeight };
                     this._mapLayer.addChild(sprite);

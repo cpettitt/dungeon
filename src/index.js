@@ -98,7 +98,7 @@ new AssetLoader().loadAssets(assets, assetMap => {
     console.log("Assets loaded!");
 
     // Load the game map
-    const gameMap = GameMap.fromTiled(assetMap["map/level1.json"]);
+    const gameMap = GameMap.fromTiled("map/level1.json", assetMap["map/level1.json"]);
 
     // Set player spawn
     boy.position = gameMap.playerSpawn;
