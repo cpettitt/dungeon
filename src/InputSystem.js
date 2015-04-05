@@ -38,7 +38,20 @@ class TouchSystem {
             x: this._camera.position.x - Math.round(this._camera.size.width / 2),
             y: this._camera.position.y - Math.round(this._camera.size.height / 2)
         };
-        return vector.subtract(vector.add(touchVector, cameraVector), this._player.position);
+
+        // Rough estimate of the max distance we can achieve on the narrowest
+        // side of the phone. This assumes the player is in the center of the
+        // camera.
+        const maxDistance = Math.min(this._camera.size.width, this._camera.size.height) * 0.40;
+
+        // This is where the player touched in the map, accounting for camera
+        // position.
+        const adjustedTouchVector = vector.add(touchVector, cameraVector);
+
+        const movementVector = vector.subtract(adjustedTouchVector, this._player.position);
+        const ratio = Math.min(1, vector.magnitude(movementVector) / maxDistance);
+
+        return vector.multiply(ratio * this._moveRate, vector.normalize(movementVector));
     }
 
     _handleStart(event) {
