@@ -8,7 +8,10 @@ class PhysicsSystem {
             if (!entity.position || !entity.movement) { return ; }
 
             let movement = vector.multiply(dt, entity.movement);
-            entity.position = vector.add(entity.position, movement);
+            entity.position = {
+                x: Math.round(entity.position.x + movement.x),
+                y: Math.round(entity.position.y + movement.y)
+            };
         });
     }
 }

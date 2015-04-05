@@ -20,7 +20,6 @@ class AnimationSystem {
             if (entity.animation) {
                 // Reset to first frame of animation
                 entity.texture.frame = entity.animationDefs[entity.animation.name].frames[0];
-                console.log(JSON.stringify(entity, null, 2));
                 delete entity.animation;
             }
             return;

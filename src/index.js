@@ -3,8 +3,10 @@ require("babelify/polyfill");
 
 const AssetLoader = require("./AssetLoader");
 const ECS = require("./ECS");
+const GameMap = require("./GameMap");
 const InputSystem = require("./InputSystem");
 const PhysicsSystem = require("./PhysicsSystem");
+const CameraSystem = require("./CameraSystem");
 const AnimationSystem = require("./AnimationSystem");
 const RenderSystem = require("./RenderSystem");
 
@@ -13,8 +15,10 @@ const PLAYER_MOVE_RATE = 150;
 
 // Configure out entity component system
 const ecs = new ECS();
+ecs.registerComponent("camera", { follow: null });
 ecs.registerComponent("movement", { x: 0, y: 0 });
 ecs.registerComponent("position", { x: 0, y: 0 });
+ecs.registerComponent("size", { x: 0, y: 0 });
 ecs.registerComponent("texture", { frame: null });
 
 ecs.registerArchetype("player", {
@@ -22,9 +26,14 @@ ecs.registerArchetype("player", {
     position: {},
     texture: {}
 });
+ecs.registerArchetype("camera", {
+    camera: {},
+    position: {},
+    size: {}
+});
 
 // Create our first entity
-let boy = ecs.addEntity("player", {
+const boy = ecs.addEntity("player", {
     texture: {
         frame: "boy-down1"
     },
@@ -33,6 +42,12 @@ let boy = ecs.addEntity("player", {
         down: createAnimationDef("boy-down", 9, 0.08),
         left: createAnimationDef("boy-left", 9, 0.08),
         right: createAnimationDef("boy-right", 9, 0.08)
+    }
+});
+
+const camera = ecs.addEntity("camera", {
+    camera: {
+        follow: boy.id
     }
 });
 
@@ -46,19 +61,31 @@ function createAnimationDef(baseName, numFrames, timePerFrame) {
 }
 
 // Set up our systems
-const inputSystem = new InputSystem(boy, PLAYER_MOVE_RATE);
+const inputSystem = new InputSystem(boy, camera, PLAYER_MOVE_RATE);
+const cameraSystem = new CameraSystem(camera);
 const physicsSystem = new PhysicsSystem();
 const animationSystem = new AnimationSystem();
-const renderSystem = new RenderSystem(800, 600);
-document.body.appendChild(renderSystem.view);
+let renderSystem;
 
 // Load assets and then run the game loop
 const assets = [
     "img/boy.json",
-    "img/boy.png"
+    "img/boy.png",
+    "img/lpc-base/interior.png",
+    "img/lpc-base/lavarock.png",
+    "img/lpc-base/lava.png",  
+    "map/level1.json"
 ];
-new AssetLoader().loadAssets(assets, () => {
+new AssetLoader().loadAssets(assets, assetMap => {
     console.log("Assets loaded!");
+
+    // Load the game map
+    const gameMap = GameMap.fromTiled(assetMap["map/level1.json"]);
+
+    // Initialize the renderer and attach the canvas to the DOM.
+    renderSystem = new RenderSystem(800, 600, gameMap, camera);
+    document.body.appendChild(renderSystem.view);
+
     requestAnimationFrame(loop);
 });
 
@@ -66,6 +93,7 @@ function loop() {
     // TODO proper tick time tracking
     inputSystem.tick();
     physicsSystem.tick(ecs.entities, 1/60);
+    cameraSystem.tick(ecs.entities);
     animationSystem.tick(ecs.entities, 1/60);
     renderSystem.tick(ecs.entities);
     requestAnimationFrame(loop);

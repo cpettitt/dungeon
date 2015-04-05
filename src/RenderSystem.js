@@ -1,10 +1,23 @@
 const each = require("lodash/collection/each");
 const PIXI = require("pixi.js");
+const vector = require("./vector");
 
 class RenderSystem {
-    constructor(width, height) {
+    constructor(width, height, gameMap, camera) {
         this._renderer = PIXI.autoDetectRenderer(width, height);
         this._stage = new PIXI.Stage();
+
+        this._cameraLayer = new PIXI.DisplayObjectContainer();
+        this._mapLayer = new PIXI.DisplayObjectContainer();
+        this._entityLayer = new PIXI.DisplayObjectContainer();
+
+        this._stage.addChild(this._cameraLayer);
+        this._cameraLayer.addChild(this._mapLayer);
+        this._cameraLayer.addChild(this._entityLayer);
+
+        this._initializeMapLayer(gameMap);
+
+        this._camera = camera;
 
         this._width = width;
         this._height = height;
@@ -21,11 +34,24 @@ class RenderSystem {
     }
 
     tick(entities) {
+        this._cameraLayer.position = vector.subtract(
+                vector.create(Math.round(this._renderer.view.width / 2),
+                              Math.round(this._renderer.view.height / 2)),
+                this._camera.position);
+
         this._markCacheEntriesUnvisited();
         each(entities, entity => this._updateEntity(entity));
         this._deleteUnvisitedCacheEntries();
 
         this._renderer.render(this._stage);
+    }
+
+    resize() {
+        const width = Math.min(window.innerWidth, this._width);
+        const height = Math.min(window.innerHeight, this._height);
+        this._renderer.resize(width, height);
+        this._camera.size.width = width;
+        this._camera.size.height = height;
     }
 
     _markCacheEntriesUnvisited() {
@@ -42,10 +68,11 @@ class RenderSystem {
             cacheEntry.sprite.setTexture(PIXI.Texture.fromFrame(entity.texture.frame));
         } else {
             const sprite = PIXI.Sprite.fromFrame(entity.texture.frame);
+            sprite.anchor = { x: 0.5, y: 0.5 };
             cacheEntry = this._spriteCache[entity.id] = {
                 sprite: sprite
             };
-            this._stage.addChild(sprite);
+            this._entityLayer.addChild(sprite);
         }
 
         cacheEntry.sprite.position = entity.position;
@@ -55,16 +82,32 @@ class RenderSystem {
     _deleteUnvisitedCacheEntries() {
         each(this._spriteCache, (entry, key) => {
             if (!entry.visited) {
-                this._stage.removeChild(entry.sprite);
+                this._entityLayer.removeChild(entry.sprite);
                 delete this._spriteCache[key];
             }
         });
     }
 
-    resize() {
-        const width = Math.min(window.innerWidth, this._width);
-        const height = Math.min(window.innerHeight, this._height);
-        this._renderer.resize(width, height);
+    _initializeMapLayer(gameMap) {
+        // First cache all of the textures
+        each(gameMap.textureFrames, (entry, id) => {
+            const baseTexture = PIXI.TextureCache[entry.image].baseTexture;
+            const texture = new PIXI.Texture(baseTexture, entry.frame);
+            PIXI.TextureCache[id] = texture;
+        });
+
+        // Now load up the map layer with sprites
+        for (let i = 0; i < gameMap.width; ++i) {
+            for (let j = 0; j < gameMap.height; ++j) {
+                const textures = gameMap.tiles[i][j].textures;
+                each(textures, texture => {
+                    const sprite = PIXI.Sprite.fromFrame(texture);
+                    sprite.anchor = { x: 0.5, y: 0.5 };
+                    sprite.position = { x: i * gameMap.tileWidth, y: j * gameMap.tileHeight };
+                    this._mapLayer.addChild(sprite);
+                });                
+            }
+        }
     }
 }
 

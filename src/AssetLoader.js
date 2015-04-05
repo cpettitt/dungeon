@@ -5,7 +5,7 @@ class AssetLoader {
         const loader = new PIXI.AssetLoader(assets, false);
         const results = {};
 
-        loader.on("progress", function(event) {
+        loader.on("onProgress", function(event) {
             if (!(event.data.loader instanceof PIXI.JsonLoader)) {
                 return;
             }

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" nextobjectid="13">
+ <tileset firstgid="1" name="lava" tilewidth="32" tileheight="32">
+  <image source="../img/lpc-base/lava.png" width="160" height="192"/>
+  <tile id="0">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="31" name="lavarock" tilewidth="32" tileheight="32">
+  <image source="../img/lpc-base/lavarock.png" width="160" height="192"/>
+ </tileset>
+ <tileset firstgid="61" name="interior" tilewidth="32" tileheight="32">
+  <image source="../img/lpc-base/interior.png" width="512" height="512"/>
+  <tile id="12">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="129">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="130">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="145">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+  <tile id="146">
+   <properties>
+    <property name="c" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="lavarock" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJyVlkGOgzAQBPkRZ/j/w3YPWcmqrRo7BxQC2G7PdBfc13U9v8f9+X0/5+vxyLUbz75yrHO+y3PPZjz/P8tBnZz/jnEPnl3Hr/vkGjzsemlaf2+5x+ur/mkMx1vtrF+2T/aj6lw9tV6aRusB+3VfrovXb5nX6kPt7EdpqrFcl+vwnNqtzuwd90jdU6/XcZPvuT/Wj140v1mtrSaT/yofz/W/lualYkT1b3ed+zYvFIssC8zntP+Jf8VkYxG1mWenXhV/TZu9ByqP1cuJwcWmqv/EvMonx1lmuKZ5ZZdNY12dcy3L7cRo6igOm0etlsVC1t8yYFrq+eLxSR6ox7x+wr4pH9Zz42Xtm3OUf6v3E7csU1zLPMc5qMG4akyY+Gvvh2Kt5Wbdv81l3DG/VVZ2PLf6Tj6wWhq/vmE292demvJijC4OVB2K9Y+sbXObZru/y19pqLrRi8aYYkqxwdYzPpDR5J/xhn5mD40V5RXqLbYbI0xb6WKuqMn8aZkrtnAO0zjpKz6zd99wtOpffLd8VlbtntVw6qll22pZ/d2tQW31TrA1eK0yRD9bRiu3zD1zVfUtphgXOM54yfqXVtNlXJ68aT57Yk7TsvPn5GvTZuwvH9QeilfmSfZ3ymfVsnhZrKwenOSd90yT7at6uatbcXG3R3rQfGnvVct5MWRiTnG8tJfHySrWbsfUYrX1ctpPfRtMWq1n7MWJvvJBcZs8M92l0dhd9TrJj/F2zYdpt9zsfL/r7S5jtrbVafq+KL+XF07zs9aO8zGrJ7mtOu56vHv+xfqs6cl3YeXq7/gBqFpPsQ==
+  </data>
+ </layer>
+ <layer name="lava" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJytWItu2zAM5JICcZe2S1KkD3vb/3/mLMCHnA9HSZlDgGhqU9JJPD7kXUR8LPo16/esL7P+pOes+1kPs77GTd4SWx5znnWadZx117DncZdYy3V59xReTstaGHec9T2x5TEF2+8Fn65ZG5fhgJT1y3nivIDvsDwf6PeL2GL8sOACxmL/J26+cuOw1vPyXHGwDZ8X/q/pxYyHf/kMi6/2yTiMLTwrvPsbN24xTvj7U/7v5Qz79rxgYx9fI+f1KdnrjvDcK1cZizOaYh0XOr/6SfGBJ+6cWcCDGm9UTtHes/pJ8TFPGLOuDzv4iWMlU8QQYoL5Xtsf42NefdJ7d+bg0hQ3bk2Ce6K/sEVMMN91fzX+OfwZPmBkTODXnmxGsnHxeY6cl+X9rwR7hOcE5wTGyfzCuq2YcPNDEA/g7gdhbfHd5RjdN/D31gpgYs6ew3Pwf3NLC5/GvqsFzBHFV5Osvjgb1LOMu1znGG+pFVwH9ssYzdtOYO9sGZfWsouZg2uxqym8H163lXNdPOM58gnHteMfn+EY6xzgbHkM7935nHsXzVNZX5fFrFNX83h+5NusR+Pc4ur2PbHaI2Xe11j3GMCYrZXlxEfEfZFjrHvN4quB8AHjI87C9RLKb7Yp9bnUPc7z6H041/fGS0tc/dL5OeZdfHBOzHpQl1dauZbxZXecnvgYzHi3TtkD31XeYt2bu7zY0/e11nX707PBHp7p2TuNd/45Rr73jJetu4/WAe09OL8cYs0dl3PG8L0r4nEUVdsh1uevvHB+qXG+1cfyXvgd+kTua7Oa0pKMU+6uxWfj9sN4XO3J6n0LX1b7FF9Pb9rjK73P1/KI47yLhd6+rSZ6Z6vVrp6aj+cOb3Zfy/Io33cfXduzexXnSu3jFQfbb8mhvfjYD5zXuaaW3/jGVzu7nvxZq29Zn+iwcm57kveul+P5NTfUeOnub/fyBt/SeB71LX+vG837HtE605O/enOA1oettb32fcZxohff1nhufSfs6cEZ348OfD398COl9/z03s13va08aOFzPY3LoXy/ZW19+9uiZd1/gZk+Mw==
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt17EJwCAYBWHX0wECybC6QVxJi7QhdvdL7oNXe42gKTHqXIPOXnHPdTpCYRx0gPQD3jNJkmLwr7a3TAe8yM9OOgRQ6IAPFx0gSYH5LtrfAM+IC9M=
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1">
+  <object id="3" name="player-spawn" x="32" y="32" width="32" height="32"/>
+  <object id="9" name="win" x="1216" y="864" width="32" height="64"/>
+ </objectgroup>
+ <layer name="Tile Layer 4" width="40" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt1kEJAAAIA0BT2j+KDcSXItwl2GOMRQDM5HUAAABa/ho6AHxgq4AtBWGJAVk=
+  </data>
+ </layer>
+</map>

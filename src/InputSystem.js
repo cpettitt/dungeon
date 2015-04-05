@@ -1,8 +1,8 @@
 const vector = require("./vector");
 
 class InputSystem {
-    constructor(player, moveRate) {
-        this._touch = new TouchSystem(player, moveRate);
+    constructor(player, camera, moveRate) {
+        this._touch = new TouchSystem(player, camera, moveRate);
         this._keyboard = new KeyboardSystem(moveRate);
         this._player = player;
     }
@@ -18,8 +18,9 @@ class InputSystem {
 }
 
 class TouchSystem {
-    constructor(player, moveRate) {
+    constructor(player, camera, moveRate) {
         this._player = player;
+        this._camera = camera;
         this._moveRate = moveRate;
         this._currentTouch = null;
 
@@ -32,7 +33,12 @@ class TouchSystem {
 
     get vector() {
         if (!this._currentTouch) { return; }
-        return vector.subtract(this._currentTouch.vector, this._player.position);
+        const touchVector = this._currentTouch.vector;
+        const cameraVector = {
+            x: this._camera.position.x - Math.round(this._camera.size.width / 2),
+            y: this._camera.position.y - Math.round(this._camera.size.height / 2)
+        };
+        return vector.subtract(vector.add(touchVector, cameraVector), this._player.position);
     }
 
     _handleStart(event) {

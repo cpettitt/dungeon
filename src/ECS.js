@@ -3,7 +3,7 @@ const defaults = require("lodash/object/defaults");
 class ECS {
     constructor() {
         this.entities = {};
-        this._nextId = 0;
+        this._nextId = 1; // Don't use 0 to avoid false-falsies... yeah!
         this._archetypes = {};
         this._components = {};
     }
