@@ -117,7 +117,6 @@ function loop() {
     const frameTime = (newTime - currentTime) / 1000;
     currentTime = newTime;
 
-    // TODO proper tick time tracking
     fps.tickStart();
 
     inputSystem.tick(ecs.entities, frameTime);
