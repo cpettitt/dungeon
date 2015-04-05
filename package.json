@@ -25,6 +25,7 @@
     "watchify": "^3.1.0"
   },
   "dependencies": {
+    "fpsmeter": "git://github.com/darsain/fpsmeter",
     "lodash": "^3.6.0",
     "pixi.js": "^2.2.8"
   }

@@ -1,6 +1,24 @@
 // Force loading of the babel polyfill.
 require("babelify/polyfill");
 
+// Set up FPS meter
+/*global FPSMeter */
+const FPS_RE = /[?&]fps=true/;
+let fps;
+if (window.location.search.match(FPS_RE) && typeof FPSMeter !== "undefined") {
+    fps = new FPSMeter({
+        theme: "colorful",
+        heat: true,
+        graph: true,
+        history: 20
+    });
+} else {
+    fps = {
+        tick: () => {},
+        tickStart: () => {}
+    };
+}
+
 const AssetLoader = require("./AssetLoader");
 const ECS = require("./ECS");
 const GameMap = require("./GameMap");
@@ -91,12 +109,14 @@ new AssetLoader().loadAssets(assets, assetMap => {
 
 function loop() {
     // TODO proper tick time tracking
+    fps.tickStart();
     inputSystem.tick();
     physicsSystem.tick(ecs.entities, 1/60);
     cameraSystem.tick(ecs.entities);
     animationSystem.tick(ecs.entities, 1/60);
     renderSystem.tick(ecs.entities);
     requestAnimationFrame(loop);
+    fps.tick();
 }
 
 console.log("Bundle loaded!");
