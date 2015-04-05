@@ -5,7 +5,7 @@ const vector = require("./vector");
 class RenderSystem {
     constructor(width, height, gameMap, camera) {
         this._renderer = PIXI.autoDetectRenderer(width, height);
-        this._stage = new PIXI.Stage();
+        this._stage = new PIXI.Stage(0x16181B);
 
         this._cameraLayer = new PIXI.DisplayObjectContainer();
         this._mapLayer = new PIXI.DisplayObjectContainer();

@@ -1,4 +1,10 @@
 body {
     margin: 0;
     padding: 0;
+    background-color: #16181B;
+}
+
+#game canvas {
+    display: block;
+    margin: 0 auto;
 }

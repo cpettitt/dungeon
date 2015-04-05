@@ -105,7 +105,7 @@ new AssetLoader().loadAssets(assets, assetMap => {
 
     // Initialize the renderer and attach the canvas to the DOM.
     renderSystem = new RenderSystem(800, 600, gameMap, camera);
-    document.body.appendChild(renderSystem.view);
+    document.getElementById("game").appendChild(renderSystem.view);
 
     requestAnimationFrame(loop);
 });
