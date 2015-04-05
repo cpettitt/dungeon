@@ -110,16 +110,31 @@ new AssetLoader().loadAssets(assets, assetMap => {
     requestAnimationFrame(loop);
 });
 
+const maxDt = 1 / 60;
+let currentTime = Date.now();
 function loop() {
+    const newTime = Date.now();
+    const frameTime = (newTime - currentTime) / 1000;
+    currentTime = newTime;
+
     // TODO proper tick time tracking
     fps.tickStart();
-    inputSystem.tick();
-    physicsSystem.tick(ecs.entities, 1/60);
-    cameraSystem.tick(ecs.entities);
-    animationSystem.tick(ecs.entities, 1/60);
-    renderSystem.tick(ecs.entities);
-    requestAnimationFrame(loop);
+
+    inputSystem.tick(ecs.entities, frameTime);
+
+    let physicsTime = frameTime;
+    while (physicsTime > 0) {
+        const dt = Math.min(physicsTime, maxDt);
+        physicsSystem.tick(ecs.entities, dt);
+        physicsTime -= dt;
+    }
+
+    animationSystem.tick(ecs.entities, frameTime);
+    cameraSystem.tick(ecs.entities, frameTime);
+    renderSystem.tick(ecs.entities, frameTime);
+
     fps.tick();
+    requestAnimationFrame(loop);
 }
 
 console.log("Bundle loaded!");
