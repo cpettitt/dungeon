@@ -100,6 +100,9 @@ new AssetLoader().loadAssets(assets, assetMap => {
     // Load the game map
     const gameMap = GameMap.fromTiled(assetMap["map/level1.json"]);
 
+    // Set player spawn
+    boy.position = gameMap.playerSpawn;
+
     // Initialize the renderer and attach the canvas to the DOM.
     renderSystem = new RenderSystem(800, 600, gameMap, camera);
     document.body.appendChild(renderSystem.view);
