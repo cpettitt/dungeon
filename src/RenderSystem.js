@@ -68,7 +68,8 @@ class RenderSystem {
             cacheEntry.sprite.setTexture(PIXI.Texture.fromFrame(entity.texture.frame));
         } else {
             const sprite = PIXI.Sprite.fromFrame(entity.texture.frame);
-            sprite.anchor = { x: 0.5, y: 0.5 };
+            // TODO don't assume anchor point...
+            sprite.anchor = { x: 0.5, y: 0.8 };
             cacheEntry = this._spriteCache[entity.id] = {
                 sprite: sprite
             };

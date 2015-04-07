@@ -33,6 +33,7 @@ const PLAYER_MOVE_RATE = 150;
 
 // Configure out entity component system
 const ecs = new ECS();
+ecs.registerComponent("bbox", { x: 0, y: 0, width: 0, height: 0 });
 ecs.registerComponent("camera", { follow: null });
 ecs.registerComponent("movement", { x: 0, y: 0 });
 ecs.registerComponent("position", { x: 0, y: 0 });
@@ -40,6 +41,7 @@ ecs.registerComponent("size", { x: 0, y: 0 });
 ecs.registerComponent("texture", { frame: null });
 
 ecs.registerArchetype("player", {
+    bbox: {},
     movement: {},
     position: {},
     texture: {}
@@ -52,6 +54,12 @@ ecs.registerArchetype("camera", {
 
 // Create our first entity
 const boy = ecs.addEntity("player", {
+    bbox: {
+        x: 0,
+        y: 4,
+        width: 30,
+        height: 16
+    },
     texture: {
         frame: "boy-down1"
     },
@@ -81,7 +89,7 @@ function createAnimationDef(baseName, numFrames, timePerFrame) {
 // Set up our systems
 const inputSystem = new InputSystem(boy, camera, PLAYER_MOVE_RATE);
 const cameraSystem = new CameraSystem(camera);
-const physicsSystem = new PhysicsSystem();
+let physicsSystem;
 const animationSystem = new AnimationSystem();
 let renderSystem;
 
@@ -102,6 +110,8 @@ new AssetLoader().loadAssets(assets, assetMap => {
 
     // Set player spawn
     boy.position = gameMap.playerSpawn;
+
+    physicsSystem = new PhysicsSystem(gameMap, boy);
 
     // Initialize the renderer and attach the canvas to the DOM.
     renderSystem = new RenderSystem(800, 600, gameMap, camera);

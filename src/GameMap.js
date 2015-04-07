@@ -1,3 +1,5 @@
+const all = require("lodash/collection/all");
+
 class GameMap {
     constructor(name, width, height, tileWidth, tileHeight) {
         this.name = name;
@@ -19,16 +21,21 @@ class GameMap {
         this.playerSpawn = null;
     }
 
-    addTileType(id, image, frame) {
+    addTileType(id, image, frame, walkable) {
         this._tileTypes[id] = {
             id,
             image,
-            frame
+            frame,
+            walkable
         };
     }
 
     addTile(x, y, tileId) {
         this._tiles[x][y].push(this._tileTypes[tileId]);
+    }
+
+    isWalkable(x, y) {
+        return all(this.getTiles(x, y), tile => tile.walkable);
     }
 
     getTileTypes() {
@@ -56,6 +63,7 @@ function processTilesets(json, map) {
         const tileHeight = +tileset.tileheight;
         // Strip off "../"
         const image = tileset.image.substr(3);
+        const tileProps = tileset.tileproperties || {};
 
         let id = gid;
 
@@ -69,7 +77,8 @@ function processTilesets(json, map) {
                     height: tileHeight
                 };
 
-                map.addTileType(id, image, frame);
+                const props = tileProps[id-gid];
+                map.addTileType(id, image, frame, !props || !props.c);
             }
         }
     }
