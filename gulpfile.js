@@ -1,69 +1,70 @@
 "use strict";
 
+var _ = require("lodash");
+var babelify = require("babelify");
+var browserSync = require("browser-sync");
+var browserify = require("browserify");
+var buffer = require("vinyl-buffer");
+var changed = require("gulp-changed");
+var del = require("del");
 var gulp = require("gulp");
 var gutil = require("gulp-util");
-var gulpif = require("gulp-if");
-var prettyTime = require("pretty-hrtime");
-var webserver = require("gulp-webserver");
-var browserify = require("browserify");
-var watchify = require("watchify");
-var babelify = require("babelify");
-var uglify = require("gulp-uglify");
-var merge = require("merge-stream");
-var source = require("vinyl-source-stream");
-var buffer = require("vinyl-buffer");
-var del = require("del");
 var jshint = require("gulp-jshint");
 var jshintStylish = require("jshint-stylish");
+var merge = require("merge-stream");
+var prettyTime = require("pretty-hrtime");
+var source = require("vinyl-source-stream");
+var uglify = require("gulp-uglify");
+var watch = require("gulp-watch");
+var watchify = require("watchify");
 
-var devMode = !process.env.NODE_ENV || process.env.NODE_ENV === "development";
-var buildDir = devMode ? "build" : "dist";
+var ASSETS_SRC = "assets/**/*";
+var BUILD_DIR = "build";
 
-gulp.task("build:assets", function() {
-    gulp.src("assets/**/*")
-        .pipe(gulp.dest(buildDir));
+gulp.task("assets:copy", function() {
+    return gulp.src(ASSETS_SRC)
+        .pipe(gulp.dest("build"));
 });
 
-gulp.task("build:js", function() {
-    return makeBundleTask(false);
+gulp.task("assets:watch", function() {
+    // Not at all redundant! :)
+    gulp.src(ASSETS_SRC)
+        .pipe(watch(ASSETS_SRC, { verbose: true }))
+        .pipe(changed(BUILD_DIR))
+        .pipe(gulp.dest(BUILD_DIR));
 });
 
-gulp.task("build", ["build:assets", "build:js"]);
-
-gulp.task("watch:js", function() {
-    if (devMode) {
-        return makeBundleTask(true);
-    }
+gulp.task("js:build", function() {
+    return makeBundleTask(false, { debug: true });
 });
 
-gulp.task("watch", ["build:assets", "watch:js"], function() {
-    if (devMode) {
-        gulp.watch("assets/**/*", ["build:assets"]);
-    } else {
-        gutil.log(gutil.colors.red("Watches disabled in non-dev modes!"));
-    }
+gulp.task("js:watch", function() {
+    return makeBundleTask(true, { debug: true });
 });
+
+gulp.task("build", ["assets:copy", "js:build"]);
+
+gulp.task("watch", ["assets:watch", "js:watch"]);
 
 gulp.task("serve", ["watch"], function() {
-    gulp.src(buildDir)
-        .pipe(webserver({
-            host: "0.0.0.0",
-            livereload: true
-        }));
+    browserSync.init({
+        files: BUILD_DIR + "/**/*",
+        notify: false,
+        reloadOnRestart: true,
+        server: {
+            baseDir: BUILD_DIR
+        }
+    });
 });
 
 gulp.task("clean", function(cb) {
-    del(["build", "dist"], cb);
+    del(BUILD_DIR, cb);
 });
 
 gulp.task("default", ["build"]);
 
-function makeBundleTask(watch) {
-    var bundler = browserify({
-            debug: devMode,
-            cache: {},
-            packageCache: {}
-        })
+function makeBundleTask(watch, args) {
+    var bundler = browserify(_.defaults(args, watchify.args))
         .add("./src/index.js")
         .transform(babelify);
 
@@ -72,7 +73,7 @@ function makeBundleTask(watch) {
         var start = process.hrtime();
         var compileStream = bundler.bundle()
             .on("error", function(err) {
-                gutil.log(gutil.colors.red("Browserify Error: " + err.message))
+                gutil.log(gutil.colors.red("Browserify Error: " + err.message));
                 this.emit("end");
             })
             .on("end", function() {
@@ -82,8 +83,8 @@ function makeBundleTask(watch) {
             })
             .pipe(source("bundle.js"))
             .pipe(buffer())
-            .pipe(gulpif(!devMode, uglify()))
-            .pipe(gulp.dest(buildDir + "/js"));
+            .pipe(uglify())
+            .pipe(gulp.dest(BUILD_DIR + "/js"));
 
         var lintStream;
         if (changedFiles) {

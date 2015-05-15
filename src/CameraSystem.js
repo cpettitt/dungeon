@@ -9,7 +9,7 @@ class CameraSystem {
             this._camera.position = {
                 x: Math.round(entity.position.x),
                 y: Math.round(entity.position.y)
-            }
+            };
         }
     }
 }

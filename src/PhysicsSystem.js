@@ -47,7 +47,7 @@ class PhysicsSystem {
 
     _advance(dt) {
         const dx = dt * this._player.movement.x;
-        const dy = dt * this._player.movement.y
+        const dy = dt * this._player.movement.y;
         this._player.position.x += dx;
         this._player.position.y += dy;
     }
