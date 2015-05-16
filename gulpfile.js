@@ -13,7 +13,9 @@ var jshint = require("gulp-jshint");
 var jshintStylish = require("jshint-stylish");
 var merge = require("merge-stream");
 var prettyTime = require("pretty-hrtime");
+var rename = require("gulp-rename");
 var source = require("vinyl-source-stream");
+var sourcemaps = require("gulp-sourcemaps");
 var uglify = require("gulp-uglify");
 var watch = require("gulp-watch");
 var watchify = require("watchify");
@@ -82,8 +84,12 @@ function makeBundleTask(watch, args) {
                     gutil.colors.magenta(prettyTime(end)));
             })
             .pipe(source("bundle.js"))
+            .pipe(gulp.dest(BUILD_DIR + "/js"))
             .pipe(buffer())
+            .pipe(sourcemaps.init({ loadMaps: true }))
             .pipe(uglify())
+            .pipe(rename({ suffix: ".min" }))
+            .pipe(sourcemaps.write("./"))
             .pipe(gulp.dest(BUILD_DIR + "/js"));
 
         var lintStream;
