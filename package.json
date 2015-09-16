@@ -4,6 +4,8 @@
   "description": "A simple HTML5 maze game",
   "main": "index.js",
   "scripts": {
+    "build": "PERSISTENT=false node buildfile",
+    "serve": "PERSISTENT=true node buildfile",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Chris Pettitt <cpettitt@gmail.com>",
@@ -12,21 +14,10 @@
     "babelify": "^6.1.1",
     "browser-sync": "^2.7.1",
     "browserify": "^9.0.7",
-    "del": "^1.1.1",
-    "gulp": "^3.8.11",
-    "gulp-changed": "^1.2.1",
-    "gulp-jshint": "^1.10.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^1.5.2",
-    "gulp-uglify": "^1.1.0",
-    "gulp-util": "^3.0.4",
-    "gulp-watch": "^4.2.4",
-    "jshint-stylish": "^1.0.1",
-    "merge-stream": "^0.1.7",
-    "pretty-hrtime": "^1.0.0",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.1.0"
+    "fs-extra": "^0.24.0",
+    "uglifyify": "^3.0.1",
+    "watch-sync": "^0.1.0",
+    "watchify": "^3.4.0"
   },
   "dependencies": {
     "lodash": "^3.8.0",
